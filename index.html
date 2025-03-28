@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amore Eterno</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(to bottom, #ffcccc, #ff6666);
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            color: white;
+            overflow-y: scroll;
+            position: relative;
+        }
+
+        /* Banner migliorato */
+        .led-strip {
+            width: 100%;
+            background: linear-gradient(135deg, #ff3366, #ff6699, #ff9966);
+            background-size: 300% 300%;
+            animation: gradientShift 5s ease infinite;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            padding: 20px 0;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 0 4px 20px rgba(255, 0, 0, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-family: 'Poppins', sans-serif;
+            z-index: 10;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .led-strip::after {
+            content: "💖";
+            font-size: 36px;
+            margin-left: 10px;
+            animation: heartbeat 1s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 80px;
+            margin-top: 100px;
+        }
+
+        .circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 6px solid white;
+            box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.8);
+            transition: 0.5s ease-in-out;
+        }
+
+        .circle:hover {
+            box-shadow: 0 0 25px 10px rgba(255, 255, 255, 1);
+        }
+
+        .circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .rose {
+            width: 80px;
+            cursor: pointer;
+            transition: transform 0.3s, filter 0.3s;
+            animation: pulse 1.5s infinite;
+        }
+
+        .rose:hover {
+            transform: scale(1.3);
+            filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.8));
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .message {
+            display: none;
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 20;
+        }
+
+        /* Cuori che cadono */
+        .heart {
+            position: absolute;
+            top: -50px;
+            font-size: 30px;
+            color: #ff4d4d;
+            animation: fall 6s infinite ease-in;
+        }
+
+        @keyframes fall {
+            0% {
+                top: -50px;
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                top: 100vh;
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+
+        .heart:nth-child(odd) {
+            animation-duration: 5s;
+            animation-delay: -2s;
+        }
+
+        .heart:nth-child(even) {
+            animation-duration: 6s;
+            animation-delay: -4s;
+        }
+
+        .falling-message {
+            position: absolute;
+            font-size: 20px;
+            color: #ff4d4d;
+            animation: fallMessage 7s infinite ease-in;
+        }
+
+        @keyframes fallMessage {
+            0% {
+                top: -50px;
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                top: 100vh;
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+
+        .music-controls {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            z-index: 50;
+        }
+
+        .music-controls button {
+            background: linear-gradient(135deg, #ff3366, #ff6699);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 22px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 20px rgba(255, 0, 0, 0.3), 0 10px 40px rgba(255, 0, 0, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .music-controls button:hover {
+            background: linear-gradient(135deg, #cc0000, #ff3333);
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5), 0 15px 50px rgba(255, 0, 0, 0.3);
+        }
+
+        .music-controls button:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+        }
+
+        .music-progress {
+            width: 300px;
+            height: 5px;
+            background: #fff;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .music-progress div {
+            height: 100%;
+            width: 0%;
+            background: #ff4d4d;
+            transition: width 0.5s ease;
+        }
+
+        /* Footer */
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #ff6666;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .footer-signature {
+            font-size: 16px;
+            margin-top: 5px;
+            font-style: italic;
+            color: #fff;
+        }
+
+        /* Pulsante Album in alto a destra */
+        .album-button {
+            background: linear-gradient(135deg, #ff3366, #ff6699);
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            transition: transform 0.3s, background 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+        }
+
+        .album-button:hover {
+            background: linear-gradient(135deg, #cc0000, #ff3333);
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="led-strip">TI AMO GIULIA</div>
+    <div class="container">
+        <div>
+            <div class="circle">
+                <img src="DAMIANO.jpg" alt="Innamorato 1">
+            </div>
+            <p><b>DAMIANO</b></p>
+        </div>
+
+        <img src="rosa-removebg-preview.png" class="rose" onclick="showMessage()" alt="Rosa">
+        
+        <div>
+            <div class="circle">
+                <img src="GIULIETTA.jpg" alt="Innamorato 2">
+            </div>
+            <p><b>GIULIA</b></p>
+        </div>
+    </div>
+    <div class="message" id="message">
+        <p id="romantic-text"></p>
+    </div>
+
+    <!-- Cuori che cadono -->
+    <div class="heart" style="left: 20%;"></div>
+    <div class="heart" style="left: 40%;"></div>
+    <div class="heart" style="left: 60%;"></div>
+    <div class="heart" style="left: 80%;"></div>
+
+    <!-- Frasi che cadono -->
+    <div class="falling-message" style="left: 10%;">TI AMO 💖</div>
+    <div class="falling-message" style="left: 30%;">SEI LA MI VITA</div>
+    <div class="falling-message" style="left: 50%;">❤️</div>
+    <div class="falling-message" style="left: 70%;">💕</div>
+    <div class="falling-message" style="left: 90%;">💘</div>
+
+    <div class="music-controls">
+        <button id="music-toggle" onclick="toggleMusic()">Avvia</button>
+        <div class="music-progress">
+            <div id="progress-bar"></div>
+        </div>
+        <audio id="music" src="ULTIMO.mp3" ontimeupdate="updateProgress()" preload="auto"></audio>
+    </div>
+
+    <footer>
+        <div class="footer-signature">FANTASIA DAMIANO</div>
+    </footer>
+
+    <!-- Pulsante Album -->
+    <button class="album-button" onclick="window.location.href='album.html'">Album</button>
+
+    <script>
+        let messages = [
+            "Il nostro amore è infinito come le stelle nel cielo! 💖",
+            "Tu sei il mio sogno più bello! 🌙✨",
+            "Ogni giorno con te è un regalo. 🎁❤️",
+            "Nel tuo cuore ho trovato la mia casa. 🏡💕",
+            "Sei la luce della mia vita. 💡💘"
+        ];
+
+        function showMessage() {
+            let randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            document.getElementById("romantic-text").innerText = randomMessage;
+            document.getElementById("message").style.display = "block";
+        }
+
+        let music = document.getElementById("music");
+        let toggleButton = document.getElementById("music-toggle");
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                toggleButton.innerText = "Ferma";
+            } else {
+                music.pause();
+                toggleButton.innerText = "Riprendi";
+                music.currentTime = 0;
+            }
+        }
+
+        function updateProgress() {
+            let progress = (music.currentTime / music.duration) * 100;
+            document.getElementById("progress-bar").style.width = progress + "%";
+        }
+    </script>
+</body>
+</html>
