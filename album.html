@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Album di Foto</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffcccc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Cambiato per fare spazio sopra */
+            height: 100vh;
+        }
+
+        /* Banner */
+        .banner {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #ff3366, #ff6699);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px; /* Ridotto per fare spazio sopra */
+        }
+
+        .banner h1 {
+            font-size: 50px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            animation: fadeIn 2s ease-in-out, slideUp 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            0% { transform: translateY(30px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Griglia per le foto */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 colonne */
+            grid-gap: 20px;
+            width: 90%;
+            max-width: 1000px; /* Ridotta la larghezza massima della griglia */
+            margin-bottom: 50px;
+        }
+
+        .photo-frame {
+            position: relative;
+            overflow: hidden;
+            border: 6px solid white; /* Bordo ridotto */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            max-width: 250px; /* Limita la larghezza massima di ciascun riquadro */
+            margin: auto; /* Centra le immagini nella griglia */
+        }
+
+        .photo-frame:hover {
+            transform: scale(1.03); /* Aggiusta la scala per l'effetto hover */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            max-width: 250px; /* Imposta una larghezza massima */
+            max-height: 250px; /* Imposta un'altezza massima */
+            transition: transform 0.3s ease;
+        }
+
+        .photo-frame:hover img {
+            transform: scale(1.05); /* Riduce l'ingrandimento durante l'hover */
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .lightbox img {
+            max-width: 80%;
+            max-height: 80%;
+            border-radius: 10px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #ff4d4d;
+            color: white;
+            font-size: 30px;
+            padding: 10px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            background: #ff6699;
+        }
+
+        /* Pulsante per tornare alla pagina principale */
+        .back-btn {
+            padding: 15px 40px;
+            background-color: #ff4d4d;
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s ease-in-out;
+            letter-spacing: 2px;
+            margin-top: 30px;
+        }
+
+        .back-btn:hover {
+            background-color: #ff6699;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Banner -->
+    <div class="banner">
+        <h1>Il Nostro Album di Foto 💖</h1>
+    </div>
+
+    <!-- Griglia di Foto -->
+    <div class="photo-grid">
+        <div class="photo-frame" onclick="openLightbox('bacio.jpg')">
+            <img src="bacio.jpg" alt="Foto 1">
+        </div>
+        <div class="photo-frame" onclick="openLightbox('foto2.jpg')">
+            <img src="foto2.jpg" alt="Foto 2">
+        </div>
+        <div class="photo-frame" onclick="openLightbox('foto3.jpg')">
+            <img src="foto3.jpg" alt="Foto 3">
+        </div>
+        <div class="photo-frame" onclick="openLightbox('foto4.jpg')">
+            <img src="foto4.jpg" alt="Foto 4">
+        </div>
+        <div class="photo-frame" onclick="openLightbox('foto5.jpg')">
+            <img src="foto5.jpg" alt="Foto 5">
+        </div>
+       
+        
+        <!-- Aggiungi altre foto se necessario -->
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="close-btn" onclick="closeLightbox()">X</button>
+        <img id="lightbox-img" src="" alt="Foto ingrandita">
+    </div>
+
+    <!-- Pulsante per tornare indietro -->
+    <button class="back-btn" onclick="window.history.back()">Torna Indietro</button>
+
+    <script>
+        function openLightbox(imageSrc) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightbox.style.display = 'flex'; // Mostra il lightbox
+            lightboxImg.src = imageSrc; // Imposta la fonte dell'immagine ingrandita
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.style.display = 'none'; // Nasconde il lightbox
+        }
+    </script>
+
+</body>
+</html>
